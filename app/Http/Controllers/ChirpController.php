@@ -1,6 +1,11 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Events\ChirpCreated;
+use App\Models\Chirp;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+
 class ChirpController extends Controller
 {
     /**
@@ -11,5 +16,14 @@ class ChirpController extends Controller
         return view('chirps', [
             //
         ]);
+    }
+
+   
+    public function store(Request $request)
+    {
+        $chirp = Chirp::create($request->all());
+        ChirpCreated::dispatch($chirp);
+
+        // ...existing code...
     }
 }
